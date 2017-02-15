@@ -58,8 +58,8 @@
 // If multiple blocks have exactly the same set of encoded values, the same
 // value table will be shared by both blocks.
 
-#ifndef NEUROGLANCER_COMPRESS_SEGMENTATION_H_
-#define NEUROGLANCER_COMPRESS_SEGMENTATION_H_
+#ifndef COMPRESS_SEGMENTATION_H_
+#define COMPRESS_SEGMENTATION_H_
 
 #include <cstddef>
 #include <cstdint>
@@ -68,23 +68,6 @@
 #include <vector>
 
 namespace compress_segmentation {
-
-// Hash function for a vector.
-struct HashVector {
-  template <class T>
-  size_t operator()(const std::vector<T>& x) const {
-    std::hash<T> hasher;
-    size_t result = 0;
-    for (const auto& v : x) {
-      result ^= hasher(v) + 0x9e3779b9 + (result << 6) + (result >> 2);
-    }
-    return result;
-  }
-};
-
-template <class Label>
-using EncodedValueCache =
-    std::unordered_map<std::vector<Label>, uint32_t, HashVector>;
 
 
 // Encodes a single channel.
@@ -135,4 +118,4 @@ void CompressChannels(const Label* input, const ptrdiff_t input_strides[4],
 
 }  // namespace compress_segmentation
 
-#endif  // NEUROGLANCER_COMPRESS_SEGMENTATION_H_
+#endif  // COMPRESS_SEGMENTATION_H_

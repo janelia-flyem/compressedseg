@@ -22,6 +22,24 @@
 
 namespace compress_segmentation {
 
+// Declarations hidden within implementation of compress_segmentation
+// Hash function for a vector.
+struct HashVector {
+  template <class T>
+  size_t operator()(const std::vector<T>& x) const {
+    std::hash<T> hasher;
+    size_t result = 0;
+    for (const auto& v : x) {
+      result ^= hasher(v) + 0x9e3779b9 + (result << 6) + (result >> 2);
+    }
+    return result;
+  }
+};
+
+template <class Label>
+using EncodedValueCache =
+    std::unordered_map<std::vector<Label>, uint32_t, HashVector>;
+
 template <class Label>
 void EncodeBlock(const Label* input, const ptrdiff_t input_strides[3],
                  const ptrdiff_t block_size[3], const ptrdiff_t actual_size[3],
