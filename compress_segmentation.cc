@@ -12,6 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Modified by: Stephen Plaza 2017 under LICENSE_JANELIA.txt
  */
 
 #include "compress_segmentation.h"
@@ -19,7 +21,6 @@
 #include <algorithm>
 #include <unordered_map>
 
-namespace neuroglancer {
 namespace compress_segmentation {
 
 constexpr size_t kBlockHeaderSize = 2;
@@ -31,6 +32,35 @@ void WriteBlockHeader(size_t encoded_value_base_offset,
   output[1] = encoded_value_base_offset;
 }
 
+// Encodes a single block.
+//
+// Args:
+//
+//   input: Pointer to the first element.
+//
+//   input_strides: Stride in uint64 units between consecutive elements in the
+//       x, y, and z dimensions.
+//
+//   block_size: Extent of the x, y, and z dimensions of the encoding block
+//       size.
+//
+//   actual_size: Actual extent of the x, y, and z dimensions of the input.
+//       These values must be <= block_size.  If actual_size < block_size, the
+//       input is treated as if it were padded up to block_size with the lowest
+//       numerical value contained within it.
+//
+//   base_offset: Starting offset into output_vec relative to which table
+//       offsets will be specified.
+//
+//   encoded_bits_output: output parameter that receives the number of bits used
+//       to encode each value.
+//
+//   table_offset_output: output parameter that receives the offset of either
+//       the existing or newly written value table used for this block.
+//
+//   cache: Cache of existing tables written and their corresponding offsets.
+//
+//   output_vec: Vector to which output will be appended.
 template <class Label>
 void EncodeBlock(const Label* input, const ptrdiff_t input_strides[3],
                  const ptrdiff_t block_size[3], const ptrdiff_t actual_size[3],
@@ -229,4 +259,3 @@ DO_INSTANTIATE(uint64_t)
 #undef DO_INSTANTIATE
 
 }  // namespace compress_segmentation
-}  // namespace neuroglancer

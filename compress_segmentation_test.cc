@@ -12,14 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Modified by: Stephen Plaza 2017 under LICENSE_JANELIA.txt
  */
 
 #include "compress_segmentation.h"
 
 #include "gtest/gtest.h"
 
-namespace neuroglancer {
 namespace compress_segmentation {
+
+template <class Label>
+void EncodeBlock(const Label* input, const ptrdiff_t input_strides[3],
+                 const ptrdiff_t block_size[3], const ptrdiff_t actual_size[3],
+                 size_t base_offset, size_t* encoded_bits_output,
+                 size_t* table_offset_output, EncodedValueCache<Label>* cache,
+                 std::vector<uint32_t>* output_vec);
+
 namespace {
 
 // Test 0-bit encoding.
@@ -226,4 +235,3 @@ TEST(CompressChannelTest, BasicCached32) {
 
 }  // namespace
 }  // namespace compress_segmentation
-}  // namespace neuroglancer
