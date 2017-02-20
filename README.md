@@ -6,8 +6,8 @@ This library contains routined to decompress and compress segmentation and to ma
 ### Features
 
 * Compression and decompression
-* Interface to relabel and manipulate segmentation from the compressed data
-* C++ and Go interface
+* (TBD) Interface to relabel and manipulate segmentation from the compressed data
+* C++ and (TBD) Go interface
 
 ### License
 
