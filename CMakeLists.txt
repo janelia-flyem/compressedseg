@@ -20,7 +20,7 @@ cmake_minimum_required(VERSION 2.8)
 project (compressedseg CXX)
 
 enable_testing()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -O3")
 
 # Enable ExternalProject CMake module
 include(ExternalProject)
@@ -63,7 +63,6 @@ target_include_directories(gmock PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party
 
 target_link_libraries(gmock gtest)
 
-
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/third_party/src/googletest/googletest/src/gtest-all.cc
   DEPENDS googletest)
 
@@ -95,6 +94,7 @@ function(DefineGTest source_name)
 endfunction()
 
 add_library(compress_segmentation STATIC
-  compress_segmentation.cc)
+  compress_segmentation.cc decompress_segmentation.cc)
 
 DefineGTest(compress_segmentation_test.cc LIBRARIES compress_segmentation)
+DefineGTest(decompress_segmentation_test.cc LIBRARIES compress_segmentation)
