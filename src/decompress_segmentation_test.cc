@@ -75,7 +75,7 @@ TEST(DecompressChannelTest, BasicNonBlockAligned) {
 
   const ptrdiff_t input_strides[3] = {1, 2, 4};
   const ptrdiff_t volume_size[3] = {2, 2, 2};
-  const ptrdiff_t block_size[3] = {3, 2, 1};
+  const ptrdiff_t block_size[3] = {1, 2, 1};
   std::vector<uint32_t> temp_output;
   std::vector<uint32_t> decompress_output;
   CompressChannel(input.data(), input_strides, volume_size, block_size,

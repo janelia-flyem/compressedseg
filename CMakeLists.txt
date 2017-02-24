@@ -61,6 +61,8 @@ target_include_directories(gtest PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party
 target_include_directories(gmock PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/third_party/src/googletest/googlemock/include)
 target_include_directories(gmock PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/src/googletest/googlemock)
 
+include_directories (AFTER ${CMAKE_SOURCE_DIR}/include)
+
 target_link_libraries(gmock gtest)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/third_party/src/googletest/googletest/src/gtest-all.cc
@@ -94,7 +96,7 @@ function(DefineGTest source_name)
 endfunction()
 
 add_library(compress_segmentation STATIC
-  compress_segmentation.cc decompress_segmentation.cc)
+  src/compress_segmentation.cc src/decompress_segmentation.cc)
 
-DefineGTest(compress_segmentation_test.cc LIBRARIES compress_segmentation)
-DefineGTest(decompress_segmentation_test.cc LIBRARIES compress_segmentation)
+DefineGTest(src/compress_segmentation_test.cc LIBRARIES compress_segmentation)
+DefineGTest(src/decompress_segmentation_test.cc LIBRARIES compress_segmentation)

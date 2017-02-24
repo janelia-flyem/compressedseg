@@ -60,7 +60,7 @@ void DecompressChannel(const uint32_t* input,
         uint64_t bitmask = (1<<encoded_bits)-1;
         for (size_t z = zmin; z < zmax; ++z) {
             for (size_t y = ymin; y < ymax; ++y) {
-                size_t outindex = (z*(volume_size[1]) + y)*volume_size[0] + base_offset;
+                size_t outindex = (z*(volume_size[1]) + y)*volume_size[0] + xmin + base_offset;
                 size_t bitpos = block_size[0] * ((z-zmin) * (block_size[1]) +
                          (y-ymin)) * encoded_bits;
                 for (size_t x = xmin; x < xmax; ++x, ++outindex) {
