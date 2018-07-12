@@ -7,7 +7,30 @@ This library contains routined to decompress and compress segmentation and to ma
 
 * Compression and decompression
 * (TBD) Interface to relabel and manipulate segmentation from the compressed data
-* C++ and Go interface
+* C++, Python, and Go interface
+
+### C++ Compilation
+
+Compiling as a shared library. Feel free to subsititute e.g. clang for the C++ compiler.
+
+```bash
+g++ -std=c++11 -O3 -fPIC -shared -I./include src/compress_segmentation.cc src/decompress_segmentation.cc -o compress_segmentation.so
+```
+
+### Python Installation
+
+_Requires a C++ compiler such as g++ or clang._
+
+Works with both Python 2 and 3. Encodes from / decodes to 3D or 4D numpy ndarrays.  
+
+```bash
+$ pip install -r requirements.txt
+$ python setup.py install
+
+$ python
+>>> import compressed_segmentation as cseg
+>>> help(cseg)
+```
 
 ### License
 
