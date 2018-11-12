@@ -1,0 +1,6 @@
+include LICENSE.txt
+include LICENSE_PYTHON.txt
+include LICENSE_JANELIA.txt
+include README.md
+recursive-include include
+recursive-include src

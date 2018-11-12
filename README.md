@@ -1,3 +1,5 @@
+NOTE: This repository is the PyPI distribution repo but is based on work done by Jeremy Maitin-Shepard (Google) and Stephen Plaza (Janelia Research Campus) here: https://github.com/janelia-flyem/compressedseg
+
 # Compress Seg [![Picture](https://raw.github.com/janelia-flyem/janelia-flyem.github.com/master/images/HHMI_Janelia_Color_Alternate_180x40.png)](http://www.janelia.org)
 ## Library for compressing and decompressing image segmentation (adapted from [neuroglancer](https://github.com/google/neuroglancer))
 

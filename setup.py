@@ -9,7 +9,7 @@ import numpy as np
 join = os.path.join
 
 setuptools.setup(
-  setup_requires=['numpy'],
+  setup_requires=['numpy', 'pbr'],
   ext_modules=[
     setuptools.Extension(
         'compressed_segmentation',
@@ -25,6 +25,7 @@ setuptools.setup(
         ],
     ),
   ],
+  pbr=True,
 )
 
 
