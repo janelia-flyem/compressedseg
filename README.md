@@ -1,4 +1,4 @@
-NOTE: This repository is the PyPI distribution repo but is based on work done by Jeremy Maitin-Shepard (Google) and Stephen Plaza (Janelia Research Campus) here: https://github.com/janelia-flyem/compressedseg
+NOTE: This repository is the PyPI distribution repo but is based on work done by Jeremy Maitin-Shepard (Google), Stephen Plaza (Janelia Research Campus), and William Silversmith (Princeton) here: https://github.com/janelia-flyem/compressedseg
 
 # Compress Seg [![Picture](https://raw.github.com/janelia-flyem/janelia-flyem.github.com/master/images/HHMI_Janelia_Color_Alternate_180x40.png)](http://www.janelia.org)
 ## Library for compressing and decompressing image segmentation (adapted from [neuroglancer](https://github.com/google/neuroglancer))
@@ -9,7 +9,7 @@ This library contains routined to decompress and compress segmentation and to ma
 
 * Compression and decompression
 * (TBD) Interface to relabel and manipulate segmentation from the compressed data
-* C++, Python, and Go interface
+* C++, Python, and Go interface (see original repo for Golang)
 
 ### C++ Compilation
 
