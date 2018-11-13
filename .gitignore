@@ -104,7 +104,6 @@ ENV/
 .DS_Store
 
 .pytest_cache
-test.py
 
 # Saved Images Cache
 saved_images
