@@ -7,8 +7,6 @@ neuroglancer.
 
 Key methods: compress, decompress
 
-DEFAULT_BLOCK_SIZE = (8,8,8)
-
 License: BSD 3-Clause
 
 Author: William Silversmith
@@ -120,10 +118,18 @@ def compress(data, block_size=DEFAULT_BLOCK_SIZE, order='C'):
   del output
   return bytestrout
 
-cdef decompress_helper32(bytes encoded, volume_size, dtype, block_size=DEFAULT_BLOCK_SIZE):
+cdef decompress_helper32(
+    bytes encoded, volume_size, dtype, order, 
+    block_size=DEFAULT_BLOCK_SIZE
+  ):
+
+  decode_shape = volume_size
+  if len(decode_shape) == 3:
+    decode_shape = (volume_size[0], volume_size[1], volume_size[2], 1)
+
   cdef unsigned char *encodedptr = <unsigned char*>encoded
   cdef uint32_t* uintencodedptr = <uint32_t*>encodedptr;
-  cdef ptrdiff_t[4] volsize = volume_size
+  cdef ptrdiff_t[4] volsize = decode_shape
   cdef ptrdiff_t[3] blksize = block_size
 
   cdef vector[uint32_t] *output = new vector[uint32_t]()
@@ -141,12 +147,21 @@ cdef decompress_helper32(bytes encoded, volume_size, dtype, block_size=DEFAULT_B
   # This construct is required by python 2.
   # Python 3 can just do np.frombuffer(vec_view, ...)
   buf = bytearray(vec_view[:])
-  return np.frombuffer(buf, dtype=dtype).reshape( volume_size, order='F' )
+  del output
+  return np.frombuffer(buf, dtype=dtype).reshape( volume_size, order=order )
 
-cdef decompress_helper64(bytes encoded, volume_size, dtype, block_size=DEFAULT_BLOCK_SIZE):
+cdef decompress_helper64(
+    bytes encoded, volume_size, dtype, order, 
+    block_size=DEFAULT_BLOCK_SIZE
+  ):
+  
+  decode_shape = volume_size
+  if len(decode_shape) == 3:
+    decode_shape = (volume_size[0], volume_size[1], volume_size[2], 1)
+
   cdef unsigned char *encodedptr = <unsigned char*>encoded
   cdef uint32_t* uintencodedptr = <uint32_t*>encodedptr;
-  cdef ptrdiff_t[4] volsize = volume_size
+  cdef ptrdiff_t[4] volsize = decode_shape
   cdef ptrdiff_t[3] blksize = block_size
 
   cdef vector[uint64_t] *output = new vector[uint64_t]()
@@ -169,11 +184,18 @@ cdef decompress_helper64(bytes encoded, volume_size, dtype, block_size=DEFAULT_B
   # This construct is required by python 2.
   # Python 3 can just do np.frombuffer(vec_view, ...)
   buf = bytearray(vec_view[:])
-  return np.frombuffer(buf, dtype=dtype).reshape( volume_size, order='F' )
+  del output
+  return np.frombuffer(buf, dtype=dtype).reshape( volume_size, order=order )
 
-def decompress(bytes encoded, volume_size, dtype, block_size=DEFAULT_BLOCK_SIZE):
+def decompress(
+    bytes encoded, volume_size, dtype, 
+    block_size=DEFAULT_BLOCK_SIZE, order='C'
+  ):
   """
-  decompress(bytes encoded, volume_size, dtype, block_size=DEFAULT_BLOCK_SIZE)
+  decompress(
+    bytes encoded, volume_size, dtype, 
+    block_size=DEFAULT_BLOCK_SIZE, order='C'
+  )
 
   Decode a compressed_segmentation file into a numpy array.
 
@@ -181,15 +203,15 @@ def decompress(bytes encoded, volume_size, dtype, block_size=DEFAULT_BLOCK_SIZE)
   volume_size: tuple with x,y,z dimensions
   dtype: np.uint32 or np.uint64
   block_size: typically (8,8,8), the block size the file was encoded with.
+  order: 'C' (XYZ) or 'F' (ZYX)
 
-  Returns: 4D numpy array with interface axes in XYZC order 
-    and internal memory layout in Fortran order.
+  Returns: 3D or 4D numpy array
   """
   dtype = np.dtype(dtype)
   if dtype == np.uint32:
-    return decompress_helper32(encoded, volume_size, dtype, block_size)
+    return decompress_helper32(encoded, volume_size, dtype, order, block_size)
   elif dtype == np.uint64:
-    return decompress_helper64(encoded, volume_size, dtype, block_size)
+    return decompress_helper64(encoded, volume_size, dtype, order, block_size)
   else:
     raise TypeError("dtype ({}) must be one of uint32 or uint64.".format(dtype))
 
