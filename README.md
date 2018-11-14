@@ -19,11 +19,40 @@ g++ -std=c++11 -O3 -fPIC -shared -I./include src/compress_segmentation.cc src/de
 
 ### Python Installation
 
+`pip` Binary Installation  
+
+```bash
+$ pip install compressed-segmentation
+
+$ python
+>>> import compressed_segmentation as cseg
+>>> help(cseg)
+```
+
+If there are pre-built binaries available this should just work. 
+
+`pip` Source Installation 
+
+If you need to build from source, you will need to have a C++ compiler installed and do the following:
+
+```bash
+$ sudo apt-get install g++ python3-dev 
+$ pip install numpy
+$ pip install compressed-segmentation
+
+$ python
+>>> import compressed_segmentation as cseg
+>>> help(cseg)
+```
+
+Direct Installation  
+
 _Requires a C++ compiler such as g++ or clang._
 
 Works with both Python 2 and 3. Encodes from / decodes to 3D or 4D numpy ndarrays.  
 
 ```bash
+$ sudo apt-get install g++ python3-dev 
 $ pip install -r requirements.txt
 $ python setup.py install
 
